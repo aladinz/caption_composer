@@ -2,7 +2,15 @@
   "version": 2,
   "builds": [
     {
-      "src": "index.html",
+      "src": "*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.css",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.js",
       "use": "@vercel/static"
     },
     {
@@ -16,7 +24,7 @@
       "dest": "/api/caption.py"
     },
     {
-      "src": "/(.*\\.(css|js|png|jpg|jpeg|gif|svg|ico))",
+      "src": "/(.*\\.(css|js))",
       "dest": "/$1"
     },
     {

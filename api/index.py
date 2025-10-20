@@ -3,8 +3,9 @@ TradeGPT-Aladdin Serverless API for Vercel
 Serves real-time caption data from caption_composer.py
 """
 
-from flask import Flask, jsonify, request
-from flask_cors import CORS
+from http.server import BaseHTTPRequestHandler
+from urllib.parse import urlparse, parse_qs
+import json
 import sys
 import os
 
@@ -13,21 +14,6 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 from caption_composer import CaptionComposer
 from datetime import datetime
-
-app = Flask(__name__, static_folder='..', static_url_path='')
-CORS(app)  # Enable CORS for production
-
-@app.route('/')
-def serve_index():
-    """Serve the main HTML page"""
-    return app.send_static_file('index.html')
-
-@app.route('/<path:filename>')
-def serve_static(filename):
-    """Serve static files"""
-    if filename.endswith('.js') or filename.endswith('.css'):
-        return app.send_static_file(filename)
-    return app.send_static_file('index.html')
 
 def calculate_days_to_earnings(earnings_date_str):
     """Calculate days until earnings from date string"""
@@ -67,13 +53,13 @@ def generate_ai_insights(stock_data, market_outlook, rsi, days_to_earnings):
     
     # RSI Analysis
     if rsi < 30:
-        bullish_signals += 2  # Strong oversold
+        bullish_signals += 2
         rsi_signal = "deeply oversold"
     elif rsi < 40:
         bullish_signals += 1
         rsi_signal = "oversold"
     elif rsi > 70:
-        bearish_signals += 2  # Strong overbought
+        bearish_signals += 2
         rsi_signal = "overbought"
     elif rsi > 60:
         bearish_signals += 1
@@ -92,8 +78,6 @@ def generate_ai_insights(stock_data, market_outlook, rsi, days_to_earnings):
         bullish_signals += 2
     elif consensus in ['Sell', 'Strong Sell']:
         bearish_signals += 2
-    elif consensus == 'Hold':
-        pass  # Neutral
     
     # Upside Potential
     if upside_to_target > 15:
@@ -104,13 +88,12 @@ def generate_ai_insights(stock_data, market_outlook, rsi, days_to_earnings):
     # Earnings Proximity
     if days_to_earnings is not None:
         if 0 <= days_to_earnings <= 3:
-            # Very close to earnings - high volatility risk
             insights['reasoning'] = f"Earnings in {days_to_earnings} day(s) - expect high volatility. RSI is {rsi_signal}."
             insights['recommendation'] = "Wait for earnings clarity" if days_to_earnings == 0 else "Exercise caution - earnings imminent"
             insights['confidence'] = 60
             return insights
         elif days_to_earnings <= 7:
-            bearish_signals += 1  # Slight caution near earnings
+            bearish_signals += 1
     
     # Calculate net signals
     net_signal = bullish_signals - bearish_signals
@@ -139,12 +122,8 @@ def generate_ai_insights(stock_data, market_outlook, rsi, days_to_earnings):
     
     return insights
 
-@app.route('/api/caption/<ticker>', methods=['GET'])
-def get_caption(ticker):
-    """
-    API endpoint to generate caption for a ticker
-    Returns: JSON with all trading intelligence data
-    """
+def get_caption_data(ticker):
+    """Generate caption for a ticker"""
     try:
         ticker = ticker.upper().strip()
         
@@ -152,10 +131,10 @@ def get_caption(ticker):
         stock_data = CaptionComposer.fetch_stock_data(ticker)
         
         if stock_data is None:
-            return jsonify({
+            return {
                 'error': f'Unable to fetch data for {ticker}. Please check the ticker symbol.',
                 'ticker': ticker
-            }), 404
+            }, 404
         
         # Generate enhanced market outlook
         market_outlook = CaptionComposer.analyze_market_outlook(stock_data, stock_data['rsi'])
@@ -210,27 +189,57 @@ def get_caption(ticker):
             )
         }
         
-        return jsonify(response)
+        return response, 200
     
     except Exception as e:
-        # Log the error for debugging
         print(f"Error processing {ticker}: {str(e)}")
         import traceback
         traceback.print_exc()
         
-        return jsonify({
+        return {
             'error': f'Error processing {ticker}: {str(e)}',
             'ticker': ticker
-        }), 500
+        }, 500
 
-@app.route('/api/health', methods=['GET'])
-def health_check():
-    """Health check endpoint"""
-    return jsonify({
-        'status': 'healthy',
-        'service': 'TradeGPT-Aladdin API',
-        'version': '1.0.0'
-    })
+class handler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        # Parse URL
+        parsed_path = urlparse(self.path)
+        path = parsed_path.path
+        
+        # Set CORS headers
+        self.send_response(200)
+        self.send_header('Content-type', 'application/json')
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+        self.end_headers()
+        
+        # Health check
+        if path == '/api/health':
+            response = {
+                'status': 'healthy',
+                'service': 'TradeGPT-Aladdin API',
+                'version': '1.0.0'
+            }
+            self.wfile.write(json.dumps(response).encode())
+            return
+        
+        # Caption endpoint
+        if path.startswith('/api/caption/'):
+            ticker = path.split('/api/caption/')[-1]
+            if ticker:
+                data, status_code = get_caption_data(ticker)
+                self.wfile.write(json.dumps(data).encode())
+                return
+        
+        # Default response
+        self.wfile.write(json.dumps({'error': 'Endpoint not found'}).encode())
+    
+    def do_OPTIONS(self):
+        self.send_response(200)
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+        self.end_headers()
 
-# Export the Flask app for Vercel
-app = app

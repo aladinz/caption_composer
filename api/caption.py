@@ -142,6 +142,7 @@ class handler(BaseHTTPRequestHandler):
                 'ticker': ticker,
                 'price': stock_data.get('price', 0),
                 'rsi': stock_data.get('rsi', 50),
+                'dataSource': stock_data.get('data_source', 'unknown'),
                 'motif': {
                     'emoji': caption_result.get('motif_emoji', '✨'),
                     'name': caption_result.get('motif', 'Unknown'),
@@ -185,6 +186,12 @@ class handler(BaseHTTPRequestHandler):
             self.send_header('Content-type', 'application/json')
             self.send_header('Access-Control-Allow-Origin', '*')
             self.end_headers()
+            error_response = {
+                'error': str(e),
+                'type': type(e).__name__,
+                'message': 'Internal server error while fetching stock data'
+            }
+            self.wfile.write(json.dumps(error_response).encode())
             self.wfile.write(json.dumps({'error': str(e)}).encode())
     
     def do_OPTIONS(self):

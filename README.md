@@ -4,8 +4,10 @@ A ceremonial web application that transforms trading signals into poetic caption
 
 ## 🌐 Live Demo
 
-**Production URL**: [https://caption-composer.vercel.app](https://caption-composer.vercel.app)  
+**UI Showcase**: [https://caption-composer.vercel.app](https://caption-composer.vercel.app) *(Frontend demo - displays simulated data)*  
 **GitHub Repository**: [https://github.com/aladinz/caption_composer](https://github.com/aladinz/caption_composer)
+
+> **Note**: The Vercel deployment showcases the UI but uses simulated data due to serverless function limitations. For full functionality with **live market data**, run the app locally (see [Local Setup](#-local-setup) below).
 
 ## ✨ Features
 
@@ -30,11 +32,49 @@ Four archetypal trading motifs based on RSI levels:
 - Tone resonance scoring for alignment
 - Mythic narrative transformation of market data
 
-## 🚀 Installation
+## 🚀 Local Setup
 
-1. **Install dependencies:**
+### Quick Start (Recommended for Live Data)
+
+1. **Clone the repository:**
+```bash
+git clone https://github.com/aladinz/caption_composer.git
+cd caption_composer
+```
+
+2. **Create virtual environment (optional but recommended):**
+```bash
+python -m venv .venv
+# Windows
+.venv\Scripts\activate
+# macOS/Linux
+source .venv/bin/activate
+```
+
+3. **Install dependencies:**
+```bash
+pip install flask flask-cors yfinance pandas
+```
+
+4. **Run the Flask app:**
+```bash
+python app.py
+```
+
+5. **Open your browser:**
+```
+http://localhost:5000
+```
+
+You now have full access to **live market data** with all features working perfectly!
+
+### Command-Line Usage
+
+For command-line trading intelligence (no web interface):
+
 ```bash
 pip install yfinance pandas
+python caption_composer.py
 ```
 
 ## 🎯 Usage
@@ -394,7 +434,21 @@ This module is part of TradeGPT-Aladdin. To extend it:
 3. **Enhance calculations**: Modify `calculate_entry_exit_points()` method
 4. **Add data sources**: Extend `fetch_stock_data()` with additional APIs
 
-## � Deployment to Vercel
+## 🌐 Deployment to Vercel
+
+> **⚠️ Important**: Vercel's free tier serverless functions have limitations that prevent fetching live market data reliably. The Vercel deployment serves as a **UI showcase** and will display simulated data. For production use with **real-time market data**, use the [Local Setup](#-local-setup) instead.
+
+### Why Local is Better
+
+- ✅ **Live market data** from yfinance
+- ✅ **No timeout limits** (Vercel free tier has 30s max)
+- ✅ **No cold starts** (instant responses)
+- ✅ **Full API functionality** (analyst ratings, earnings, etc.)
+- ✅ **Unlimited requests** (no rate limits)
+
+### Deploy to Vercel (UI Showcase Only)
+
+If you still want to deploy for UI demonstration:
 
 ### Prerequisites
 - GitHub account

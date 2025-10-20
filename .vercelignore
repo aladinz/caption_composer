@@ -14,3 +14,11 @@ ENV/
 .gitignore
 app.py
 example_usage.py
+test_*.py
+*_NOTES.md
+*_SUMMARY.md
+*_REFERENCE.md
+BUGFIX_*.md
+ENHANCED_*.md
+RELEASE_*.md
+PROJECT_*.md

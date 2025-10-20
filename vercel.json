@@ -1,8 +1,27 @@
 {
-  "rewrites": [
+  "version": 2,
+  "builds": [
     {
-      "source": "/api/caption",
-      "destination": "/api/caption.py"
+      "src": "index.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "api/caption.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/caption",
+      "dest": "/api/caption.py"
+    },
+    {
+      "src": "/(.*\\.(css|js|png|jpg|jpeg|gif|svg|ico))",
+      "dest": "/$1"
+    },
+    {
+      "src": "/",
+      "dest": "/index.html"
     }
   ]
 }

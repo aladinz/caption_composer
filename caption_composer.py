@@ -679,14 +679,69 @@ def generate_from_ticker(ticker: str) -> Dict[str, str]:
     """
     Generate a complete caption echo from just a ticker symbol.
     Automatically fetches RSI and generates forecast tone.
+    Returns comprehensive trading intelligence data.
     
     Args:
         ticker: Stock ticker symbol
         
     Returns:
-        Dictionary with complete caption echo data
+        Dictionary with complete caption echo data and market intelligence
     """
-    return generate_caption_echo(ticker)
+    # Fetch comprehensive stock data
+    stock_data = CaptionComposer.fetch_stock_data(ticker)
+    
+    if stock_data is None:
+        raise ValueError(f"Could not fetch data for ticker: {ticker}")
+    
+    # Extract key data
+    rsi = stock_data["rsi"]
+    
+    # Generate forecast tone with enhanced outlook
+    forecast_tone = CaptionComposer.generate_forecast_tone(rsi, ticker, stock_data)
+    
+    # Generate market outlook analysis
+    outlook_data = CaptionComposer.analyze_market_outlook(stock_data, rsi)
+    
+    # Generate the caption echo
+    caption_result = CaptionComposer.compose(ticker, rsi, forecast_tone)
+    
+    # Combine all data into comprehensive result
+    result = {
+        # Caption data
+        **caption_result,
+        
+        # Market data
+        "price": stock_data.get("price"),
+        "data_source": stock_data.get("data_source", "unknown"),
+        
+        # Analyst consensus
+        "consensus_rating": stock_data.get("consensus_rating", "N/A"),
+        "target_price": stock_data.get("target_price"),
+        "num_analysts": stock_data.get("num_analysts", 0),
+        
+        # Earnings calendar
+        "earnings_date": stock_data.get("earnings_date"),
+        "days_to_earnings": stock_data.get("days_to_earnings"),
+        
+        # Strategic levels
+        "entry_point": stock_data.get("entry_point"),
+        "exit_point": stock_data.get("exit_point"),
+        "stop_loss": stock_data.get("stop_loss"),
+        "upside_potential": stock_data.get("upside_potential"),
+        
+        # Market outlook
+        "sentiment": outlook_data.get("overall_sentiment"),
+        "trend": outlook_data.get("trend"),
+        "trend_emoji": outlook_data.get("trend_emoji"),
+        "analyst_view": outlook_data.get("analyst_view"),
+        "rsi_signal": outlook_data.get("rsi_signal"),
+        "recommended_action": outlook_data.get("action"),
+        "outlook_description": outlook_data.get("outlook"),
+        "forecast_tone": forecast_tone,
+        "earnings_warning": outlook_data.get("earnings_warning"),
+    }
+    
+    return result
 
 
 def interactive_mode():

@@ -27,7 +27,34 @@ Four archetypal trading motifs based on RSI levels:
 
 ## 🚀 Installation
 
-### Quick Start
+### Quick Start (Using Run Scripts)
+
+The easiest way to run Caption Composer is using the provided run scripts:
+
+**Windows (Command Prompt):**
+```bash
+run.bat
+```
+
+**Windows (PowerShell):**
+```powershell
+.\run.ps1
+```
+
+**Linux/Mac:**
+```bash
+chmod +x run.sh
+./run.sh
+```
+
+The scripts will automatically:
+- ✅ Activate your virtual environment (if it exists)
+- ✅ Check and install dependencies (yfinance, pandas)
+- ✅ Launch Caption Composer
+
+### Manual Installation
+
+If you prefer to install manually:
 
 1. **Install dependencies:**
 ```bash

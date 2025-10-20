@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TradeGPT-Aladdin - Caption Composer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="lamp-icon">🪔</span>
+                <h1>TradeGPT-Aladdin</h1>
+            </div>
+            <p class="tagline">Where Data Meets Destiny</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Input Section -->
+            <section class="input-section">
+                <div class="mystical-border">
+                    <h2 class="section-title">Seek Your Market Wisdom</h2>
+                    <p class="instruction">Enter any ticker symbol to receive your ceremonial echo with real-time data</p>
+                    <p class="instruction" style="font-size: 0.9rem; color: #999;">Powered by live market intelligence from Yahoo Finance</p>
+                    
+                    <div class="input-group">
+                        <input 
+                            type="text" 
+                            id="tickerInput" 
+                            class="ticker-input" 
+                            placeholder="e.g., NVDA, AAPL, TSLA"
+                            maxlength="10"
+                            autocomplete="off"
+                        >
+                        <button id="composeBtn" class="compose-btn">
+                            <span class="btn-icon">✨</span>
+                            Compose Caption
+                        </button>
+                    </div>
+
+                    <!-- Optional: Manual Forecast Tone Selector -->
+                    <div class="tone-selector" id="toneSelector" style="display: none;">
+                        <label for="forecastTone">Forecast Tone:</label>
+                        <select id="forecastTone" class="tone-dropdown">
+                            <option value="auto">Auto-Generate</option>
+                            <option value="strategic">Strategic Clarity</option>
+                            <option value="momentum">Momentum Surge</option>
+                            <option value="patience">Patient Discipline</option>
+                            <option value="reflection">Reflective Stillness</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Loading Indicator -->
+            <div id="loadingIndicator" class="loading-indicator" style="display: none;">
+                <div class="spinner"></div>
+                <p>Channeling market wisdom...</p>
+            </div>
+
+            <!-- Output Section -->
+            <section id="outputSection" class="output-section" style="display: none;">
+                <div class="ceremonial-card">
+                    <!-- Header with Ticker and Price -->
+                    <div class="card-header">
+                        <div class="ticker-display">
+                            <span id="outputTicker" class="ticker-symbol">NVDA</span>
+                            <span id="outputPrice" class="price-display">$183.22</span>
+                        </div>
+                        <div id="sentimentBadge" class="sentiment-badge bullish">
+                            <span class="badge-icon">🟢</span>
+                            <span id="sentimentText">Bullish Alignment</span>
+                        </div>
+                    </div>
+
+                    <!-- Market Intelligence Grid -->
+                    <div class="intelligence-grid">
+                        <!-- RSI & Motif -->
+                        <div class="intel-card motif-card">
+                            <div class="intel-header">
+                                <span class="intel-icon">📊</span>
+                                <span class="intel-label">Technical Signal</span>
+                            </div>
+                            <div class="motif-display">
+                                <div class="motif-emoji" id="motifEmoji">🧭</div>
+                                <div class="motif-info">
+                                    <div class="motif-name" id="motifName">Clarity</div>
+                                    <div class="motif-archetype" id="motifArchetype">The Navigator</div>
+                                </div>
+                            </div>
+                            <div class="rsi-meter">
+                                <div class="rsi-label">RSI: <span id="rsiValue">51.53</span></div>
+                                <div class="rsi-bar">
+                                    <div id="rsiIndicator" class="rsi-fill" style="width: 51.53%"></div>
+                                </div>
+                                <div class="rsi-zones">
+                                    <span>0</span>
+                                    <span>30</span>
+                                    <span>50</span>
+                                    <span>70</span>
+                                    <span>100</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Market Outlook -->
+                        <div class="intel-card outlook-card">
+                            <div class="intel-header">
+                                <span class="intel-icon">🔮</span>
+                                <span class="intel-label">Market Outlook</span>
+                            </div>
+                            <div class="outlook-content">
+                                <div class="trend-display">
+                                    <span id="trendEmoji" class="trend-emoji">📈</span>
+                                    <span id="trendName" class="trend-name">Bullish Momentum Building</span>
+                                </div>
+                                <div class="outlook-details">
+                                    <div class="outlook-row">
+                                        <span class="label">Analyst View:</span>
+                                        <span id="analystView" class="value">Bullish</span>
+                                    </div>
+                                    <div class="outlook-row">
+                                        <span class="label">Action:</span>
+                                        <span id="recommendedAction" class="value action-highlight">Enter with conviction</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Strategic Levels -->
+                        <div class="intel-card levels-card">
+                            <div class="intel-header">
+                                <span class="intel-icon">🎲</span>
+                                <span class="intel-label">Strategic Levels</span>
+                            </div>
+                            <div class="levels-content">
+                                <div class="level-row">
+                                    <span class="level-label">Entry:</span>
+                                    <span id="entryLevel" class="level-value">$185.05</span>
+                                </div>
+                                <div class="level-row">
+                                    <span class="level-label">Exit:</span>
+                                    <span id="exitLevel" class="level-value">$205.40</span>
+                                </div>
+                                <div class="level-row">
+                                    <span class="level-label">Stop:</span>
+                                    <span id="stopLevel" class="level-value stop">$174.26</span>
+                                </div>
+                                <div class="upside-display">
+                                    <span class="upside-label">Upside:</span>
+                                    <span id="upsideValue" class="upside-value">+11.0%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings Alert -->
+                        <div class="intel-card earnings-card" id="earningsCard" style="display: none;">
+                            <div class="intel-header">
+                                <span class="intel-icon">📅</span>
+                                <span class="intel-label">Earnings Calendar</span>
+                            </div>
+                            <div class="earnings-content">
+                                <div id="earningsAlert" class="earnings-alert">
+                                    <span class="alert-icon">⚠️</span>
+                                    <span id="earningsMessage">Earnings in 7 days</span>
+                                </div>
+                                <div class="earnings-date">
+                                    Next: <span id="earningsDate">2025-02-26</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AI Insights -->
+                        <div class="intel-card ai-insights-card">
+                            <div class="intel-header">
+                                <span class="intel-icon">🤖</span>
+                                <span class="intel-label">AI Insights</span>
+                            </div>
+                            <div class="ai-insights-content">
+                                <div class="insight-recommendation">
+                                    <div class="recommendation-label">Recommendation:</div>
+                                    <div id="aiRecommendation" class="recommendation-text">Analyzing...</div>
+                                </div>
+                                <div class="insight-confidence">
+                                    <div class="confidence-label">Confidence:</div>
+                                    <div id="aiConfidence" class="confidence-bar">
+                                        <div id="aiConfidenceLevel" class="confidence-fill" style="width: 0%"></div>
+                                    </div>
+                                    <div id="aiConfidenceText" class="confidence-text">0%</div>
+                                </div>
+                                <div class="insight-reasoning">
+                                    <div class="reasoning-label">💡 Key Factor:</div>
+                                    <div id="aiReasoning" class="reasoning-text">Evaluating market conditions...</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Forecast Tone -->
+                    <div class="forecast-section">
+                        <div class="forecast-header">
+                            <span class="forecast-icon">🎭</span>
+                            <span class="forecast-label">Forecast Tone</span>
+                        </div>
+                        <div id="forecastToneDisplay" class="forecast-tone">
+                            "Bullish confluence with technical strength, trust the trend"
+                        </div>
+                    </div>
+
+                    <!-- Poetic Caption Echo -->
+                    <div class="caption-section">
+                        <div class="caption-ornament top"></div>
+                        <div class="caption-header">
+                            <span class="caption-icon">✨</span>
+                            <span class="caption-label">Poetic Echo</span>
+                        </div>
+                        <div id="captionEcho" class="caption-echo">
+                            "I trusted the signal that others couldn't see."
+                        </div>
+                        <div class="caption-ornament bottom"></div>
+                    </div>
+
+                    <!-- Footer Quote -->
+                    <div class="card-footer">
+                        <p class="wisdom-quote">May your trades be guided by wisdom, not whim.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2025 TradeGPT-Aladdin | Where data meets destiny</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

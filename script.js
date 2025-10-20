@@ -24,12 +24,16 @@ function getSentimentClass(sentiment) {
     return 'neutral';
 }
 
-// === Main Composition Function ===// === Main Composition Function ===
+// === Main Composition Function ===
 
 async function composeCaption(ticker) {
     try {
-        // Call Flask API to get real-time data
-        const response = await fetch(`${API_BASE_URL}/api/caption/${ticker}`, {
+        // Call API endpoint - uses query parameter format for Vercel
+        const apiUrl = window.location.hostname === 'localhost' 
+            ? `http://localhost:5000/api/caption/${ticker}`
+            : `/api/caption?ticker=${ticker}`;
+            
+        const response = await fetch(apiUrl, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -44,14 +48,14 @@ async function composeCaption(ticker) {
         
         const data = await response.json();
         
-        // Return the data (already formatted by Flask API)
+        // Return the data (already formatted by API)
         return data;
         
     } catch (error) {
         if (error.name === 'TimeoutError') {
             throw new Error(`Request timed out. The server took too long to respond for ${ticker}.`);
         } else if (error.name === 'TypeError' && error.message.includes('fetch')) {
-            throw new Error(`Cannot connect to server. Make sure Flask API is running at ${API_BASE_URL}`);
+            throw new Error(`Cannot connect to server. Make sure API is available.`);
         } else {
             throw error;
         }

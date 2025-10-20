@@ -1,14 +1,8 @@
 {
-  "builds": [
+  "rewrites": [
     {
-      "src": "api/caption.py",
-      "use": "@vercel/python"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/caption",
-      "dest": "api/caption.py"
+      "source": "/api/caption",
+      "destination": "/api/caption.py"
     }
   ]
 }

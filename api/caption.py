@@ -12,6 +12,14 @@ import os
 # Add parent directory to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
+# Pre-import heavy modules to reduce cold start time
+try:
+    import yfinance as yf
+    import pandas as pd
+    YFINANCE_AVAILABLE = True
+except ImportError:
+    YFINANCE_AVAILABLE = False
+
 from caption_composer import CaptionComposer
 from datetime import datetime
 
@@ -117,7 +125,19 @@ class handler(BaseHTTPRequestHandler):
                 self.send_error(400, "Missing ticker parameter")
                 return
             
-            # Fetch stock data
+            # Check if yfinance is available
+            if not YFINANCE_AVAILABLE:
+                self.send_response(500)
+                self.send_header('Content-type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(json.dumps({
+                    'error': 'yfinance module not available',
+                    'dataSource': 'error'
+                }).encode())
+                return
+            
+            # Fetch stock data with timeout protection
             stock_data = CaptionComposer.fetch_stock_data(ticker)
             
             if not stock_data:

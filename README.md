@@ -398,7 +398,7 @@ This module is part of TradeGPT-Aladdin. To extend it:
 3. **Enhance calculations**: Modify `calculate_entry_exit_points()` method
 4. **Add data sources**: Extend `fetch_stock_data()` with additional APIs
 
-
+## 📜 License
 
 Part of the TradeGPT-Aladdin ecosystem.
 

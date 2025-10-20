@@ -115,11 +115,19 @@ class CaptionComposer:
                     earnings_dates = calendar.get('Earnings Date')
                     if earnings_dates is not None and len(earnings_dates) > 0:
                         next_earnings = earnings_dates[0]
+                        
+                        # Convert to pandas Timestamp for consistent date handling
                         if hasattr(next_earnings, 'strftime'):
                             earnings_date = next_earnings.strftime('%Y-%m-%d')
-                            days_to_earnings = (next_earnings - pd.Timestamp.now()).days
-            except:
-                pass
+                            
+                            # Convert both dates to pandas Timestamp for calculation
+                            next_earnings_ts = pd.Timestamp(next_earnings)
+                            now_ts = pd.Timestamp.now()
+                            days_to_earnings = (next_earnings_ts - now_ts).days
+            except Exception as e:
+                print(f"⚠️  Error getting earnings data: {e}")
+                import traceback
+                traceback.print_exc()
             
             # Calculate support and resistance levels (simple pivot points)
             entry_exit = CaptionComposer.calculate_entry_exit_points(

@@ -41,6 +41,10 @@ def get_caption(ticker):
         # Generate caption and intelligence
         result = generate_from_ticker(ticker.upper())
         
+        # Debug log to see what we're sending
+        print(f"📅 Earnings date: {result.get('earnings_date')}")
+        print(f"📅 Days to earnings: {result.get('days_to_earnings')} (type: {type(result.get('days_to_earnings'))})")
+        
         # Return full result
         return jsonify(result)
     

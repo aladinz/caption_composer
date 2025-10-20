@@ -14,8 +14,20 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 from caption_composer import CaptionComposer
 from datetime import datetime
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='..', static_url_path='')
 CORS(app)  # Enable CORS for production
+
+@app.route('/')
+def serve_index():
+    """Serve the main HTML page"""
+    return app.send_static_file('index.html')
+
+@app.route('/<path:filename>')
+def serve_static(filename):
+    """Serve static files"""
+    if filename.endswith('.js') or filename.endswith('.css'):
+        return app.send_static_file(filename)
+    return app.send_static_file('index.html')
 
 def calculate_days_to_earnings(earnings_date_str):
     """Calculate days until earnings from date string"""
@@ -220,7 +232,5 @@ def health_check():
         'version': '1.0.0'
     })
 
-# Vercel serverless handler
-def handler(request, context):
-    with app.request_context(request.environ):
-        return app.full_dispatch_request()
+# Export the Flask app for Vercel
+app = app

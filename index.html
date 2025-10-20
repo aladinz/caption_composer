@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caption Composer - TradeGPT-Aladdin</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="title">🎭 Caption Composer</h1>
+            <p class="subtitle">TradeGPT-Aladdin Trading Intelligence</p>
+        </header>
+
+        <!-- Search Section -->
+        <div class="search-section">
+            <div class="search-box">
+                <input 
+                    type="text" 
+                    id="tickerInput" 
+                    placeholder="Enter ticker symbol (e.g., AAPL, NVDA, TSLA)"
+                    autocomplete="off"
+                    spellcheck="false"
+                />
+                <button id="analyzeBtn">Analyze</button>
+            </div>
+            <p class="hint">Enter a stock ticker to receive comprehensive trading intelligence</p>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Fetching market intelligence...</p>
+        </div>
+
+        <!-- Error Message -->
+        <div id="error" class="error hidden">
+            <span class="error-icon">⚠️</span>
+            <p id="errorMessage"></p>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results" class="results hidden">
+            <!-- Market Data Card -->
+            <div class="card">
+                <h2 class="card-title">📊 Market Data</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="label">Ticker</span>
+                        <span class="value" id="ticker">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Current Price</span>
+                        <span class="value" id="price">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">RSI (14-period)</span>
+                        <span class="value" id="rsi">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Motif</span>
+                        <span class="value" id="motif">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analyst Consensus Card -->
+            <div class="card">
+                <h2 class="card-title">🎯 Analyst Consensus</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="label">Rating</span>
+                        <span class="value rating" id="rating">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Price Target</span>
+                        <span class="value" id="target">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Analysts Covering</span>
+                        <span class="value" id="numAnalysts">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Earnings Calendar Card -->
+            <div class="card">
+                <h2 class="card-title">📅 Earnings Calendar</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="label">Next Earnings Date</span>
+                        <span class="value" id="earningsDate">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Days Until Earnings</span>
+                        <span class="value" id="daysToEarnings">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Strategic Levels Card -->
+            <div class="card">
+                <h2 class="card-title">🎲 Strategic Levels</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="label">Entry Point</span>
+                        <span class="value entry" id="entry">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Exit Target</span>
+                        <span class="value exit" id="exit">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Stop Loss</span>
+                        <span class="value stop" id="stop">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Upside Potential</span>
+                        <span class="value upside" id="upside">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Market Outlook Card -->
+            <div class="card">
+                <h2 class="card-title">🔮 Market Outlook</h2>
+                <div class="outlook-content">
+                    <div class="outlook-row">
+                        <span class="outlook-label">Sentiment:</span>
+                        <span class="outlook-value" id="sentiment">-</span>
+                    </div>
+                    <div class="outlook-row">
+                        <span class="outlook-label">Trend:</span>
+                        <span class="outlook-value" id="trend">-</span>
+                    </div>
+                    <div class="outlook-row">
+                        <span class="outlook-label">Recommended Action:</span>
+                        <span class="outlook-value" id="action">-</span>
+                    </div>
+                    <div class="outlook-description">
+                        <p id="outlook">-</p>
+                    </div>
+                    <div class="forecast-tone">
+                        <p id="forecastTone">-</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Poetic Caption Card -->
+            <div class="card caption-card">
+                <h2 class="card-title">✨ Poetic Echo</h2>
+                <div class="caption-content">
+                    <div class="caption-emoji" id="captionEmoji">🧭</div>
+                    <blockquote class="caption-text" id="caption">
+                        Loading your poetic wisdom...
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>⚠️ For educational purposes only. Not financial advice.</p>
+            <p class="quote">"In the dance between fear and greed, let clarity be your compass."</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

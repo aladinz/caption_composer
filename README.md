@@ -1,6 +1,8 @@
 # 🎭 Caption Composer - TradeGPT-Aladdin Trading Intelligence
 
-A ceremonial command-line tool that transforms trading signals into poetic caption echoes while providing comprehensive market intelligence including analyst ratings, price targets, earnings dates, strategic entry/exit points, and AI-powered recommendations.
+A ceremonial trading intelligence tool that transforms market signals into poetic wisdom while providing comprehensive market intelligence including analyst ratings, price targets, earnings dates, strategic entry/exit points, and AI-powered recommendations.
+
+**Available as both a modern web interface and command-line tool.**
 
 ## ✨ Features
 
@@ -27,9 +29,26 @@ Four archetypal trading motifs based on RSI levels:
 
 ## 🚀 Installation
 
-### Quick Start (Using Run Scripts)
+### Quick Start - Web Interface (Recommended)
 
-The easiest way to run Caption Composer is using the provided run scripts:
+The easiest way to use Caption Composer is through the modern web interface:
+
+**Windows:**
+```bash
+run_web.bat
+```
+
+Then open your browser to: **http://localhost:5000**
+
+The web interface provides:
+- 🎨 **Modern, clean design** with real-time updates
+- 📊 **Visual data presentation** with all metrics at a glance
+- ✨ **Interactive experience** - just type a ticker and analyze
+- 📱 **Responsive design** - works on desktop and mobile
+
+### Alternative - Command-Line Tool
+
+For command-line enthusiasts:
 
 **Windows (Command Prompt):**
 ```bash
@@ -47,26 +66,27 @@ chmod +x run.sh
 ./run.sh
 ```
 
-The scripts will automatically:
-- ✅ Activate your virtual environment (if it exists)
-- ✅ Check and install dependencies (yfinance, pandas)
-- ✅ Launch Caption Composer
-
 ### Manual Installation
 
 If you prefer to install manually:
 
 1. **Install dependencies:**
 ```bash
+# For web interface
+pip install flask flask-cors yfinance pandas
+
+# For command-line only
 pip install yfinance pandas
 ```
 
 2. **Run the tool:**
 ```bash
+# Web interface
+python app.py
+
+# Command-line
 python caption_composer.py
 ```
-
-That's it! You now have access to live market data with comprehensive trading intelligence.
 
 ## 🎯 Usage
 

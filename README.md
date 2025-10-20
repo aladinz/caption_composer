@@ -1,13 +1,6 @@
 # 🎭 Caption Composer - TradeGPT-Aladdin Trading Intelligence
 
-A ceremonial web application that transforms trading signals into poetic caption echoes while providing comprehensive market intelligence including analyst ratings, price targets, earnings dates, strategic entry/exit points, and AI-powered recommendations.
-
-## 🌐 Live Demo
-
-**UI Showcase**: [https://caption-composer.vercel.app](https://caption-composer.vercel.app) *(Frontend demo - displays simulated data)*  
-**GitHub Repository**: [https://github.com/aladinz/caption_composer](https://github.com/aladinz/caption_composer)
-
-> **Note**: The Vercel deployment showcases the UI but uses simulated data due to serverless function limitations. For full functionality with **live market data**, run the app locally (see [Local Setup](#-local-setup) below).
+A ceremonial command-line tool that transforms trading signals into poetic caption echoes while providing comprehensive market intelligence including analyst ratings, price targets, earnings dates, strategic entry/exit points, and AI-powered recommendations.
 
 ## ✨ Features
 
@@ -32,50 +25,21 @@ Four archetypal trading motifs based on RSI levels:
 - Tone resonance scoring for alignment
 - Mythic narrative transformation of market data
 
-## 🚀 Local Setup
+## 🚀 Installation
 
-### Quick Start (Recommended for Live Data)
+### Quick Start
 
-1. **Clone the repository:**
-```bash
-git clone https://github.com/aladinz/caption_composer.git
-cd caption_composer
-```
-
-2. **Create virtual environment (optional but recommended):**
-```bash
-python -m venv .venv
-# Windows
-.venv\Scripts\activate
-# macOS/Linux
-source .venv/bin/activate
-```
-
-3. **Install dependencies:**
-```bash
-pip install flask flask-cors yfinance pandas
-```
-
-4. **Run the Flask app:**
-```bash
-python app.py
-```
-
-5. **Open your browser:**
-```
-http://localhost:5000
-```
-
-You now have full access to **live market data** with all features working perfectly!
-
-### Command-Line Usage
-
-For command-line trading intelligence (no web interface):
-
+1. **Install dependencies:**
 ```bash
 pip install yfinance pandas
+```
+
+2. **Run the tool:**
+```bash
 python caption_composer.py
 ```
+
+That's it! You now have access to live market data with comprehensive trading intelligence.
 
 ## 🎯 Usage
 
@@ -434,150 +398,7 @@ This module is part of TradeGPT-Aladdin. To extend it:
 3. **Enhance calculations**: Modify `calculate_entry_exit_points()` method
 4. **Add data sources**: Extend `fetch_stock_data()` with additional APIs
 
-## 🌐 Deployment to Vercel
 
-> **⚠️ Important**: Vercel's free tier serverless functions have limitations that prevent fetching live market data reliably. The Vercel deployment serves as a **UI showcase** and will display simulated data. For production use with **real-time market data**, use the [Local Setup](#-local-setup) instead.
-
-### Why Local is Better
-
-- ✅ **Live market data** from yfinance
-- ✅ **No timeout limits** (Vercel free tier has 30s max)
-- ✅ **No cold starts** (instant responses)
-- ✅ **Full API functionality** (analyst ratings, earnings, etc.)
-- ✅ **Unlimited requests** (no rate limits)
-
-### Deploy to Vercel (UI Showcase Only)
-
-If you still want to deploy for UI demonstration:
-
-### Prerequisites
-- GitHub account
-- Vercel account (sign up at https://vercel.com)
-- Git installed locally
-
-### Step 1: Push to GitHub
-
-If you haven't already pushed your code:
-
-```bash
-# Initialize git repository (if not already done)
-git init
-
-# Add all files
-git add .
-
-# Commit
-git commit -m "Initial commit - Caption Composer web app"
-
-# Add your GitHub repository as remote
-git remote add origin https://github.com/aladinz/caption_composer.git
-
-# Push to GitHub
-git push -u origin main
-```
-
-### Step 2: Deploy to Vercel
-
-**Option A: Using Vercel Dashboard (Recommended)**
-
-1. Go to [https://vercel.com](https://vercel.com) and sign in
-2. Click "Add New" → "Project"
-3. Import your GitHub repository: `aladinz/caption_composer`
-4. Vercel will auto-detect the configuration from `vercel.json`
-5. Click "Deploy"
-6. Wait for deployment to complete (2-3 minutes)
-7. Your app will be live at: `https://caption-composer-[random].vercel.app`
-
-**Option B: Using Vercel CLI**
-
-```bash
-# Install Vercel CLI globally
-npm install -g vercel
-
-# Login to Vercel
-vercel login
-
-# Deploy from your project directory
-cd "C:\Users\aladi\Caption Composer"
-vercel
-
-# Follow the prompts:
-# - Link to existing project or create new
-# - Confirm deployment settings
-# - Wait for deployment
-```
-
-### Step 3: Configure Custom Domain (Optional)
-
-1. In Vercel dashboard, go to your project
-2. Settings → Domains
-3. Add your custom domain
-4. Follow DNS configuration instructions
-
-### Project Structure for Vercel
-
-```
-caption_composer/
-├── api/
-│   └── index.py          # Serverless API function
-├── index.html            # Main web interface
-├── script.js             # Frontend JavaScript
-├── styles.css            # Styling
-├── caption_composer.py   # Core trading logic
-├── vercel.json          # Vercel configuration
-├── requirements.txt     # Python dependencies
-├── .vercelignore       # Files to exclude from deployment
-└── README.md
-```
-
-### Environment Variables
-
-No environment variables needed for basic deployment. The app uses:
-- yfinance API (no key required)
-- Client-side rendering
-- Serverless Python functions
-
-### Troubleshooting Deployment
-
-**Issue**: Build fails with Python errors  
-**Solution**: Check `requirements.txt` has all dependencies
-
-**Issue**: API returns 500 errors  
-**Solution**: Check Vercel function logs in dashboard → Deployment → Functions
-
-**Issue**: Cannot fetch stock data  
-**Solution**: yfinance may have rate limits, try different ticker or wait
-
-**Issue**: CORS errors in browser  
-**Solution**: CORS is enabled in `api/index.py`, check browser console
-
-### Monitoring Your Deployment
-
-1. **Analytics**: Vercel Dashboard → Analytics
-2. **Function Logs**: Deployment → Functions → View Logs
-3. **Performance**: Speed Insights tab
-4. **Errors**: Deployment → Runtime Logs
-
-### Updating Your Deployment
-
-After making changes locally:
-
-```bash
-# Stage changes
-git add .
-
-# Commit
-git commit -m "Update: description of changes"
-
-# Push to GitHub
-git push
-
-# Vercel auto-deploys on push!
-```
-
-Vercel automatically deploys every push to `main` branch.
-
-## �📜 License
 
 Part of the TradeGPT-Aladdin ecosystem.
 
